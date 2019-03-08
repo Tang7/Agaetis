@@ -7,12 +7,16 @@ import (
 	"net/http"
 )
 
+// PageVariables variables to display in page
 type PageVariables struct {
 	Data string
 	Time string
 }
 
+// ImgPath image folder path
 var ImgPath = "./img"
+
+// TempImgPath temp image folder store the image during image upload
 var TempImgPath = "./tmp/"
 
 func main() {
