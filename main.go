@@ -19,6 +19,7 @@ func main() {
 	http.HandleFunc("/", Home)
 	http.HandleFunc("/imageRecognition", ImageRecognition)
 	http.HandleFunc("/imageRecognition/viewImage", viewImage)
+	http.HandleFunc("/changeLog", ChangeLog)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 

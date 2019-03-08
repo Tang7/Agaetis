@@ -5,9 +5,19 @@
         <title>Image Recognition</title>
     </head>
 
-    <p>Upload an image: </p>
-    <form action="/imageRecognition" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image">
-        <input type="submit" value="Upload">
-    </form>
+    <body>
+        <nav>
+            <ul>
+                <li><a class="active" href="/">Home</a></li>
+                <li><a href="/imageRecognition">Image Recognition</a></li>
+                <li><a href="/changeLog">Change Log</a></li>
+            </ul>
+        </nav>
+
+        <p>Upload an image: </p>
+        <form action="/imageRecognition" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image">
+            <input type="submit" value="Upload">
+        </form>
+    </body>
 </html>
