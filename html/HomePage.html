@@ -1,28 +1,40 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <title>Agaetis Tang</title>
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link href='https://fonts.googleapis.com/css?family=Google Sans' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <nav>
-            <ul>
-                <li><a class="active" href="/">Home</a></li>
-                <li><a href="/imageRecognition">Image Recognition</a></li>
-                <li><a href="/changeLog">Change Log</a></li>
-            </ul>
-        </nav>
+        <div class="memu">
+            <!-- <button type="button" class="button-to-show-menu-list" data-category="site-custom Events"
+                data-label="menu list data">::before</button> -->
+            <nav>
+                <ul>
+                    <li><a class="active" href="/">Home</a></li>
+                    <li><a href="/imageRecognition">Image Recognition</a></li>
+                    <li><a href="/changeLog">Change Log</a></li>
+                </ul>
+            </nav>
+        </div>
 
-        <div class="bg">
-            <div class="mainbody">
-                <p>Agaetis Tang, Software Engineer</p>
+        <div class="main-page-background">
+            <div class="main-page-description">
+                <div class ="main-page-info">
+                    <h2>Agaetis Tang</h2>
+                    <h4>Software Engineer</h4>
+                </div>
                 <p>This is my website I created to help me learn Go, Docker and Kubernetes.</p>
                 <p>New features will added in the future.</p>
             </div>
         </div>
 
         <div class="footer">
-            &copy; 2019 Qi Tang 
-            <p>{{.Data}}, {{.Time}}</p>
+            <div class="copyright">
+                &copy; 2019 Qi Tang 
+            </div>
+            <div class="time">
+                {{.Data}} {{.Time}}
+            </div>
         </div>
     </body>
 </html>

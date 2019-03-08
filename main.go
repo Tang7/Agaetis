@@ -20,6 +20,10 @@ var ImgPath = "./img"
 var TempImgPath = "./tmp/"
 
 func main() {
+	// serve everything in below folders as a file
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
+	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("img"))))
+
 	http.HandleFunc("/", Home)
 	http.HandleFunc("/imageRecognition", ImageRecognition)
 	http.HandleFunc("/imageRecognition/viewImage", viewImage)
