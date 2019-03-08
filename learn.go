@@ -6,9 +6,19 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
-var htmlPage = template.Must(template.ParseFiles("upload.html"))
+type PageVariables struct {
+	Data string
+	Time string
+}
+
+var countryMap = map[string]string {
+	"Finland": "Europe/Helsinki",
+}
+
+var homaPage = template.Must(template.ParseFiles("HomePage.html"))
 
 func check(err error) {
 	if err != nil {
@@ -19,7 +29,14 @@ func check(err error) {
 
 func uploadImage(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		htmlPage.Execute(w, nil)
+		curLocation, _ := time.LoadLocation(countryMap["Finland"])
+		t := time.Now().In(curLocation)
+		HomePageVars := PageVariables {
+			Data: t.Format("Mon Jan _2 2006"),
+			Time: t.Format("3:04PM"),
+		}
+
+		homaPage.Execute(w, HomePageVars)
 		return
 	}
 	// Make a POST request when submit
@@ -47,7 +64,7 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 		defer func() {
 			if e, ok := recover().(error); ok {
 				w.WriteHeader(500)
-				htmlPage.Execute(w, e)
+				homaPage.Execute(w, e)
 			}
 		}()
 		fn(w, r)

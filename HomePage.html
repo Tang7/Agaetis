@@ -1,8 +1,12 @@
 <html>
     <head>
-        <title>Moustachio</title>
+        <meta charset="utf-8">
+        <title>Agaetis Tang</title>
     </head>
     <body>
+        <p>{{.Data}}</p>
+        <p>{{.Time}}</p>
+
         <p>Upload an image to moustachify:</p>
         <form action="/" method = "POST" enctype="multipart/form-data">
                 <input type="file" name="image" accept="image">
