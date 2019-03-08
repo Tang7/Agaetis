@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -18,7 +19,7 @@ var countryMap = map[string]string {
 	"Finland": "Europe/Helsinki",
 }
 
-var homaPage = template.Must(template.ParseFiles("HomePage.html"))
+var homePage = template.Must(template.ParseFiles("HomePage.html"))
 
 func check(err error) {
 	if err != nil {
@@ -35,8 +36,9 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 			Data: t.Format("Mon Jan _2 2006"),
 			Time: t.Format("3:04PM"),
 		}
+		fmt.Println(HomePageVars)
 
-		homaPage.Execute(w, HomePageVars)
+		homePage.Execute(w, HomePageVars)
 		return
 	}
 	// Make a POST request when submit
@@ -64,7 +66,7 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 		defer func() {
 			if e, ok := recover().(error); ok {
 				w.WriteHeader(500)
-				homaPage.Execute(w, e)
+				homePage.Execute(w, e)
 			}
 		}()
 		fn(w, r)
