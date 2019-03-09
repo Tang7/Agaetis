@@ -37,6 +37,30 @@
     vertical-align: middle;
 }
 
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #8c8cc7;
+    padding: 0 15px;
+    text-decoration: none;
+}
+
+nav li a:hover:not(.active){
+    color: #f30808fa
+}
+
+.active {
+    color: #2df804;
+}
+
 .main-page-background-container {
     max-height: 675px;
     width: 100%;
@@ -44,25 +68,28 @@
 }
 
 .main-page-background {
-    height: 500px;
-    width: 100%;
-    background-size: contain;
+    height: 610px;
+    background-size: cover;
     background-image: url("/img/misc/bg_main.jpg");
     background-repeat: no-repeat;
     background-color: #ffffff;
-    background-position: top right;
-}
-
-.main-page-description {
-    padding-top: 100px;
-    color: #08f343fa
 }
 
 .main-page-info {
     position: absolute;
-    color: #0e1de2fa;
-    left: 10px;
+    color: #f3082ffa;
+    left: 20px;
     top: 80px;
+}
+
+.main-page-description {
+    padding-top: 100px;
+}
+
+p {
+    color: #08f343fa;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 .footer {
