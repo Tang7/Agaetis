@@ -1,5 +1,6 @@
 * {
     margin: 0;
+    overflow-x: hidden;
     font-family: Google Sans, sans-serif;
 }
 
@@ -41,6 +42,7 @@ nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    color: #7e8b86fa
 }
 
 nav ul li {
@@ -61,6 +63,10 @@ nav li a:hover:not(.active){
     color: #2df804;
 }
 
+a.active:hover {
+    color: #8c8cc7
+}
+
 .main-page-background-container {
     max-height: 675px;
     width: 100%;
@@ -70,9 +76,9 @@ nav li a:hover:not(.active){
 .main-page-background {
     height: 610px;
     background-size: cover;
-    background-image: url("/img/misc/bg_main.jpg");
     background-repeat: no-repeat;
     background-color: #ffffff;
+    background-image: url("/img/misc/bg_main.jpg");
 }
 
 .main-page-info {
@@ -106,4 +112,16 @@ p {
 .time {
     color: #f10e0efa;
     float: right;
+}
+
+.upload-image-container {
+    margin-left: 20px;
+}
+
+.upload-image-container p {
+    margin-left: 0px;
+}
+
+.change-log-container {
+    text-align: center;
 }

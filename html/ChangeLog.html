@@ -1,19 +1,28 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Agaetis Tang</title>
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link href='https://fonts.googleapis.com/css?family=Google Sans' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <nav>
-            <ul>
-                <li><a class="active" href="/">Home</a></li>
-                <li><a href="/imageRecognition">Image Recognition</a></li>
-                <li><a href="/changeLog">Change Log</a></li>
-            </ul>
-        </nav>
+        <div class="website-top-container">
+            <div class="website-top-row">
 
-        <div class="bg">
-            <div class="mainbody">
+                <div class="home-page-my-name">
+                    <h2>Agaetis Tang</h2>
+                </div>
+                <nav>
+                    <ul class="home-page-nav-list">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/imageRecognition">Image Recognition</a></li>
+                        <li><a class="active" href="/changeLog">Change Log</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="change-log-container">
+            <div class="change-log-list">
                 <p>
                     <li>Mar 8 2019: This website is created from scratch.</li>
                 </p>
@@ -21,8 +30,12 @@
         </div>
 
         <div class="footer">
-            &copy; 2019 Qi Tang 
-            <p>{{.Data}}, {{.Time}}</p>
+            <div class="copyright">
+                &copy; 2019 Qi Tang 
+            </div>
+            <div class="time">
+                {{.Data}} {{.Time}}
+            </div>
         </div>
     </body>
 </html>
