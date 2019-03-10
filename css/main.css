@@ -78,7 +78,8 @@ a.active:hover {
     background-size: cover;
     background-repeat: no-repeat;
     background-color: #ffffff;
-    background-image: url("/img/misc/bg_main.jpg");
+    /* TODO: Display is not stable across Safari and Chrome */
+    background-image: url("/img/background/bg_main.jpg");
 }
 
 .main-page-info {
