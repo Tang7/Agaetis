@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
 // PageVariables variables to display in page
@@ -20,13 +21,14 @@ var ImgPath = "./img"
 var TempImgPath = "./tmp/"
 
 func main() {
+	// disable low level warning
+	os.Setenv("TF_CPP_MIN_LOG_LEVEL", "2")
 	// serve everything in below folders as a file
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
 	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("img"))))
 
 	http.HandleFunc("/", Home)
-	http.HandleFunc("/imageRecognition", ImageRecognition)
-	http.HandleFunc("/imageRecognition/viewImage", viewImage)
+	http.HandleFunc("/imageRecognition", UploadImage)
 	http.HandleFunc("/changeLog", ChangeLog)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
