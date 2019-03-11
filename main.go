@@ -14,12 +14,6 @@ type PageVariables struct {
 	Time string
 }
 
-// ImgPath image folder path
-var ImgPath = "./img"
-
-// TempImgPath temp image folder store the image during image upload
-var TempImgPath = "./tmp/"
-
 func main() {
 	// disable low level warning
 	os.Setenv("TF_CPP_MIN_LOG_LEVEL", "2")
