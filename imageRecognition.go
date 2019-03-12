@@ -7,10 +7,10 @@ import (
 	"html/template"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"sort"
+	"errors"
 
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
 	"github.com/tensorflow/tensorflow/tensorflow/go/op"
@@ -23,9 +23,10 @@ const (
 
 // ImageDetails test use
 type ImageDetails struct {
-	URL        string
-	PredLabels Labels
-	Success    bool
+	URL           string
+	PredLabels    Labels
+	Success       bool
+	StatusMessage string
 }
 
 // Label store preditive result as label and probability
@@ -46,19 +47,25 @@ func (l Labels) Less(i, j int) bool { return l[i].Probability > l[j].Probability
 
 // UploadImage test use
 func UploadImage(w http.ResponseWriter, r *http.Request) {
+	details := ImageDetails {StatusMessage: "Please enter an URL"}
 	ImageRecognitionPage := template.Must(template.ParseFiles("html/ImageRecognition.html"))
 	if r.Method != "POST" {
-		ImageRecognitionPage.Execute(w, nil)
+		ImageRecognitionPage.Execute(w, details)
 		return
 	}
 
-	details := ImageDetails{
-		URL: r.FormValue("url"),
+	details.URL = r.FormValue("url")
+
+	var err error
+	details.PredLabels, err = makePrediction(details.URL)
+	if (err != nil) {
+		details.StatusMessage = err.Error()
+		ImageRecognitionPage.Execute(w, details)
+		return
 	}
 
-	details.PredLabels = makePrediction(details.URL)
-
 	if len(details.PredLabels) > 0 {
+		details.StatusMessage = "Please check the result"
 		details.Success = true
 	}
 
@@ -66,28 +73,28 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 	ImageRecognitionPage.Execute(w, details)
 }
 
-func makePrediction(url string) (predLabels Labels) {
+func makePrediction(url string) (Labels, error) {
 
 	response, e := http.Get(url)
 	if e != nil {
-		log.Fatalf("unable to get image from url %v", e)
+		return nil, errors.New("Unable to get image from url")
 	}
 	defer response.Body.Close()
 
 	// load model
 	graph, labels, err := loadModel()
 	if err != nil {
-		log.Fatalf("unable to load model: %v", err)
+		return nil, errors.New("Load model failed")
 	}
 
 	tensor, err := normalizeImage(response.Body)
 	if err != nil {
-		log.Fatalf("unable to make a tensor from image %v", err)
+		return nil, errors.New("Image normalize failed")
 	}
 
 	session, err := tf.NewSession(graph, nil)
 	if err != nil {
-		log.Fatalf("could not init session %v", err)
+		return nil, errors.New("Session init failed")
 	}
 
 	output, err := session.Run(
@@ -100,14 +107,14 @@ func makePrediction(url string) (predLabels Labels) {
 		nil)
 
 	if err != nil {
-		log.Fatalf("could not run interface %v", err)
+		return nil, errors.New("Session run failed")
 	}
 
-	predLabels = getTopFiveLabels(labels, output[0].Value().([][]float32)[0])
+	predLabels := getTopFiveLabels(labels, output[0].Value().([][]float32)[0])
 	for _, l := range predLabels {
 		fmt.Printf("label: %s, probability: %.2f%%\n", l.Label, l.Probability*100)
 	}
-	return predLabels
+	return predLabels, nil
 }
 
 func loadModel() (*tf.Graph, []string, error) {

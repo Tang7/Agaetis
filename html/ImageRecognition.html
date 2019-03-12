@@ -24,15 +24,13 @@
         </div>
 
         <div class="upload-image-container">
+                <h1>{{.StatusMessage}}</h1>
             {{if .Success}}
-                <h1>Please wait seconds to check the result</h1>
                 <ul>
                     {{range .PredLabels}}
                         <li>{{.Label}} {{.Probability}}</li>
                     {{end}}
                 </ul>
-			{{else}}
-				<h1>Please enter an URL</h1>
 			{{end}}
 			<form method="POST">
 				<label>URL:</label><br />
