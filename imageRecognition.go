@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"fmt"
 	"html/template"
 	"io"
@@ -10,7 +11,6 @@ import (
 	"net/http"
 	"os"
 	"sort"
-	"errors"
 
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
 	"github.com/tensorflow/tensorflow/tensorflow/go/op"
@@ -20,6 +20,27 @@ const (
 	graphFile  = "./model/inception5h/tensorflow_inception_graph.pb"
 	labelsFile = "./model/inception5h/imagenet_comp_graph_label_strings.txt"
 )
+
+// ErrInvalidImageURL means user input an invalid image URL
+var ErrInvalidImageURL = errors.New("Unable to get image from URL")
+
+// ErrLoadModelFailed means app failed to load pre-trained model
+var ErrLoadModelFailed = errors.New("Load model failed")
+
+// ErrImageNormalizeFailed means app failed to normalized the image
+var ErrImageNormalizeFailed = errors.New("Image normalize failed")
+
+// ErrSessionInitFailed means unable to initilze the tensorflow session
+var ErrSessionInitFailed = errors.New("Session init failed")
+
+// ErrSessionRunFailed means error happens during session running
+var ErrSessionRunFailed = errors.New("Session run failed")
+
+// PromptInputImage is the welcome text before user input image URL
+var PromptInputImage = "Please enter an URL"
+
+// PromptOutputResult is the result text after recognition is done
+var PromptOutputResult = "Please check the result"
 
 // ImageDetails test use
 type ImageDetails struct {
@@ -47,7 +68,7 @@ func (l Labels) Less(i, j int) bool { return l[i].Probability > l[j].Probability
 
 // UploadImage test use
 func UploadImage(w http.ResponseWriter, r *http.Request) {
-	details := ImageDetails {StatusMessage: "Please enter an URL"}
+	details := ImageDetails{StatusMessage: PromptInputImage}
 	ImageRecognitionPage := template.Must(template.ParseFiles("html/ImageRecognition.html"))
 	if r.Method != "POST" {
 		ImageRecognitionPage.Execute(w, details)
@@ -58,18 +79,17 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 	details.PredLabels, err = makePrediction(details.URL)
-	if (err != nil) {
+	if err != nil {
 		details.StatusMessage = err.Error()
 		ImageRecognitionPage.Execute(w, details)
 		return
 	}
 
 	if len(details.PredLabels) > 0 {
-		details.StatusMessage = "Please check the result"
+		details.StatusMessage = PromptOutputResult
 		details.Success = true
 	}
 
-	// ImageRecognitionPage.Execute(w, struct{ Success bool }{true})
 	ImageRecognitionPage.Execute(w, details)
 }
 
@@ -77,24 +97,24 @@ func makePrediction(url string) (Labels, error) {
 
 	response, e := http.Get(url)
 	if e != nil {
-		return nil, errors.New("Unable to get image from url")
+		return nil, ErrInvalidImageURL
 	}
 	defer response.Body.Close()
 
 	// load model
 	graph, labels, err := loadModel()
 	if err != nil {
-		return nil, errors.New("Load model failed")
+		return nil, ErrLoadModelFailed
 	}
 
 	tensor, err := normalizeImage(response.Body)
 	if err != nil {
-		return nil, errors.New("Image normalize failed")
+		return nil, ErrImageNormalizeFailed
 	}
 
 	session, err := tf.NewSession(graph, nil)
 	if err != nil {
-		return nil, errors.New("Session init failed")
+		return nil, ErrSessionInitFailed
 	}
 
 	output, err := session.Run(
@@ -107,7 +127,7 @@ func makePrediction(url string) (Labels, error) {
 		nil)
 
 	if err != nil {
-		return nil, errors.New("Session run failed")
+		return nil, ErrSessionRunFailed
 	}
 
 	predLabels := getTopFiveLabels(labels, output[0].Value().([][]float32)[0])

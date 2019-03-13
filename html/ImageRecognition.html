@@ -24,14 +24,14 @@
         </div>
 
         <div class="upload-image-container">
-                <h1>{{.StatusMessage}}</h1>
-            {{if .Success}}
-                <ul>
-                    {{range .PredLabels}}
-                        <li>{{.Label}} {{.Probability}}</li>
-                    {{end}}
-                </ul>
-			{{end}}
+            <h1>{{.StatusMessage}}</h1>
+                {{if .Success}}
+                    <ul>
+                        {{range .PredLabels}}
+                            <li>{{.Label}} {{.Probability}}</li>
+                        {{end}}
+                    </ul>
+                {{end}}
 			<form method="POST">
 				<label>URL:</label><br />
 				<input type="text" name="url"><br />
@@ -46,6 +46,3 @@
         </div>
     </body>
 </html>
-
-
-<!-- forms.html -->
