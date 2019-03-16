@@ -36,11 +36,8 @@ var ErrSessionInitFailed = errors.New("Session init failed")
 // ErrSessionRunFailed means error happens during session running
 var ErrSessionRunFailed = errors.New("Session run failed")
 
-// PromptInputImage is the welcome text before user input image URL
-var PromptInputImage = "Please enter an URL"
-
-// PromptOutputResult is the result text after recognition is done
-var PromptOutputResult = "Please check the result"
+// SuccessImageRecognition is success image recognition text
+var SuccessImageRecognition = "Image Recognition Done"
 
 // ImageDetails test use
 type ImageDetails struct {
@@ -68,14 +65,13 @@ func (l Labels) Less(i, j int) bool { return l[i].Probability > l[j].Probability
 
 // UploadImage test use
 func UploadImage(w http.ResponseWriter, r *http.Request) {
-	details := ImageDetails{StatusMessage: PromptInputImage}
 	ImageRecognitionPage := template.Must(template.ParseFiles("html/ImageRecognition.html"))
 	if r.Method != "POST" {
-		ImageRecognitionPage.Execute(w, details)
+		ImageRecognitionPage.Execute(w, nil)
 		return
 	}
 
-	details.URL = r.FormValue("url")
+	details := ImageDetails{URL: r.FormValue("url")}
 
 	var err error
 	details.PredLabels, err = makePrediction(details.URL)
@@ -86,7 +82,7 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(details.PredLabels) > 0 {
-		details.StatusMessage = PromptOutputResult
+		details.StatusMessage = SuccessImageRecognition
 		details.Success = true
 	}
 

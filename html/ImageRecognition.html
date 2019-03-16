@@ -24,7 +24,22 @@
         </div>
 
         <div class="upload-image-container">
-            <h1>{{.StatusMessage}}</h1>
+			<form method="POST">
+				<label>Input an URL:</label><br />
+				<input type="text" name="url"><br />
+				<input type="submit">
+			</form>
+        </div>
+
+        <div class="image-recognition-container">
+            <div id="image-recognition-image">
+                {{if .Success}}
+                    <img src={{.URL}} style="width:650px;height:450px">
+                {{end}}
+            </div>
+
+            <div id="image-recognition-result">
+                <h4>{{.StatusMessage}}</h4>
                 {{if .Success}}
                     <ul>
                         {{range .PredLabels}}
@@ -32,11 +47,7 @@
                         {{end}}
                     </ul>
                 {{end}}
-			<form method="POST">
-				<label>URL:</label><br />
-				<input type="text" name="url"><br />
-				<input type="submit">
-			</form>
+            </div>
         </div>
 
         <div class="footer">
