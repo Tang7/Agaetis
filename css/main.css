@@ -20,6 +20,22 @@
     position: absolute;
 }
 
+.footer {
+    color:#4b5786;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.copyright {
+    color: #3f11e2fa;
+    float: left;
+}
+
+.time {
+    color: #f10e0efa;
+    float: right;
+}
+
 .home-page-my-name {
     color: #0e1de2fa;
     width: 160px;
@@ -99,25 +115,10 @@ p {
     margin-bottom: 20px;
 }
 
-.footer {
-    color:#4b5786;
-    margin-left: 20px;
-    margin-top: 5px;
-}
-
-.copyright {
-    color: #3f11e2fa;
-    float: left;
-}
-
-.time {
-    color: #f10e0efa;
-    float: right;
-}
-
 .upload-image-container {
     margin-left: 20px;
-    height: 100px;
+    height: 50px;
+    background-color: #2df804
 }
 
 .upload-image-container p {
@@ -128,18 +129,19 @@ p {
     margin-left: 20px;
     margin-top: 20px;
     width: 100%;
-    height: 450px;
+    max-height: 450px;
+    display: table;
 }
 
 #image-recognition-image {
-    height: 450px;
-    width: 650px;
+    height: 100%;
+    width: 60%;
     float: left;
 }
 
 #image-recognition-result {
-    height: 500px;
-    width: 350px;
+    height: 100%;
+    width: 40%;
     float: left;
 }
 
