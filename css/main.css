@@ -1,6 +1,5 @@
 * {
-    margin: 0;
-    overflow-x: hidden;
+    margin-left: 0;
     font-family: Google Sans, sans-serif;
 }
 
@@ -18,22 +17,6 @@
     display: table;
     vertical-align: middle;
     position: absolute;
-}
-
-.footer {
-    color:#4b5786;
-    margin-left: 20px;
-    margin-top: 5px;
-}
-
-.copyright {
-    color: #3f11e2fa;
-    float: left;
-}
-
-.time {
-    color: #f10e0efa;
-    float: right;
 }
 
 .home-page-my-name {
@@ -83,6 +66,22 @@ a.active:hover {
     color: #8c8cc7
 }
 
+.footer {
+    color:#4b5786;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.copyright {
+    color: #3f11e2fa;
+    float: left;
+}
+
+.time {
+    color: #f10e0efa;
+    float: right;
+}
+
 .main-page-background-container {
     max-height: 675px;
     width: 100%;
@@ -117,8 +116,7 @@ p {
 
 .upload-image-container {
     margin-left: 20px;
-    height: 50px;
-    background-color: #2df804
+    height: 70px;
 }
 
 .upload-image-container p {
@@ -134,21 +132,30 @@ p {
 }
 
 #image-recognition-image {
-    height: 100%;
-    width: 60%;
+    height: 450px;
+    width: 50%;
     float: left;
+    display: table-cell;
 }
 
 #image-recognition-result {
     height: 100%;
-    width: 40%;
+    width: 50%;
     float: left;
+    display: table-cell;
 }
 
 #image-recognition-result h4 {
     text-align: center;
 }
 
-.change-log-container {
-    text-align: center;
+#image-recognition-result ul {
+    list-style: none;
+    position: relative;
+    left: 30%;
+}
+
+.change-log-list {
+    position: relative;
+    left: 35%
 }

@@ -36,8 +36,8 @@ var ErrSessionInitFailed = errors.New("Session init failed")
 // ErrSessionRunFailed means error happens during session running
 var ErrSessionRunFailed = errors.New("Session run failed")
 
-// SuccessImageRecognition is success image recognition text
-var SuccessImageRecognition = "Image Recognition Done"
+// SuccessImageRecognitionResult is success image recognition text
+var SuccessImageRecognitionResult = "Image Recognition Result"
 
 // ImageDetails test use
 type ImageDetails struct {
@@ -82,7 +82,7 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(details.PredLabels) > 0 {
-		details.StatusMessage = SuccessImageRecognition
+		details.StatusMessage = SuccessImageRecognitionResult
 		details.Success = true
 	}
 
